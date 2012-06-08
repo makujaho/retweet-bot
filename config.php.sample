@@ -1,0 +1,11 @@
+<?php 
+
+class BotConfig {
+	const OAUTH_CONSUMER_KEY      = '';
+	const OAUTH_CONSUMER_SECRET   = '';
+
+	const OAUTH_USER_TOKEN        = '';
+	const OAUTH_USER_SECRET       = '';
+	
+	const BOT_KEYWORDS            = '';
+}
