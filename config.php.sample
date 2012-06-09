@@ -8,4 +8,7 @@ class BotConfig {
 	const OAUTH_USER_SECRET       = '';
 	
 	const BOT_KEYWORDS            = '';
+	
+	const LOG_FILE_PATH           = 'data/bot.log';
+	const LOG_ENABLED             = false;
 }
