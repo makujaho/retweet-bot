@@ -1,3 +1,6 @@
 [submodule "tmhOAuth"]
 	path = tmhOAuth
 	url = https://github.com/themattharris/tmhOAuth.git
+[submodule "log"]
+	path = log
+	url = https://github.com/taktos/php-tail.git
