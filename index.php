@@ -14,7 +14,7 @@ require 'config.php';
  * @var PHPTail
  */
 
-$tail = new PHPTail(BotConfig::LOG_FILE_PATH);
+$tail = new PHPTail(BotConfig::LOG_FILE_PATH, BotConfig::LOG_BROWSER_UPDATE_TIME);
 
 if(isset($_GET['ajax']))  {
 	echo $tail->getNewLines($_GET['lastsize'], $_GET['grep'], $_GET['invert']);

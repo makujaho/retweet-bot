@@ -1,25 +1,24 @@
 #!/usr/bin/php
 <?php 
-
 /**
+ * This bot will retweet the keywords marked in bot config.
  * 
+ * You should run it from the command line. If you are on windows, you might
+ * need to change some things on your config and this file(esp. the first
+ * line, which is the shebang that tells the computer to execute it with PHP)
  * 
  * @package    twerfurt
  * @subpackage twitter-bot
+ * @author     Maik Kulbe <info@linux-web-development.de>
+ * @license    see LICENCE file
  */
 
-require 'tmhOAuth/tmhOAuth.php';
-require 'tmhOAuth/tmhUtilities.php';
+// The tmhOAuth twitter API
+require_once 'tmhOAuth/tmhOAuth.php';
+require_once 'tmhOAuth/tmhUtilities.php';
 
-require 'config.php';
-
-function clog ($string) {
-	if (BotConfig::LOG_ENABLED === false) {
-		return;
-	}
-	error_log(date(('Y-m-d h:i:s')) . " [BOT]: ", 3, BotConfig::LOG_FILE_PATH);
-    error_log($string, 3, BotConfig::LOG_FILE_PATH);
-}
+require_once 'config.php';
+require_once 'util.php';
 
 $tmhOAuth = new tmhOAuth(array(
     'consumer_key'    => BotConfig::OAUTH_CONSUMER_KEY,
@@ -41,39 +40,38 @@ $retweet_method = "http://api.twitter.com/1/statuses/retweet/{id}.json";
 function streaming_callback($data, $length, $metrics) {
     global $tmhOAuthRetweet, $retweet_method;
 
-    clog("LENGTH:");
-    clog($length);
+    BotUtil::clog("LENGTH:", BotConfig::LOG_LEVEL_DEBUG);
+    BotUtil::clog($length, BotConfig::LOG_LEVEL_DEBUG);
 
-    clog("METRICS:");
-    clog($metrics);
+    BotUtil::clog("METRICS:", BotConfig::LOG_LEVEL_DEBUG);
+    BotUtil::clog($metrics, BotConfig::LOG_LEVEL_DEBUG);
 
     if ($length == '0') {
-        clog("NOP");
+        BotUtil::clog("NOP", BotConfig::LOG_LEVEL_PRODUCTION);
     } else {
     	$data = json_decode($data);
-    	clog("DATA:");
-    	clog($data);
+
+    	BotUtil::clog("RETWEET", BotConfig::LOG_LEVEL_PRODUCTION);
+    	BotUtil::clog("DATA:", BotConfig::LOG_LEVEL_DEBUG);
+    	BotUtil::clog($data, BotConfig::LOG_LEVEL_DEBUG);
 
     	// If that tweet was already retweeted we should already have it in our TL
-    	if ($data->retweet_count > 0) {
+    	if ($data->retweeted === true || strpos($data->text, 'RT @') === 0) {
     		return;
     	}
 
-        $tweet_id = $tweet_id->id_str;
-
-        $params = array(
+        $tweet_id = $data->id_str;
+        $params   = array(
             // RETWEET PARAMS
         );
 
         $tmhOAuthRetweet->request("POST", str_replace('{id}', $tweet_id, $retweet_method), $params);
-        tmhUtilities::pr($tmhOAuthRetweet);
-
     }
-	
+
     return file_exists(dirname(__FILE__) . '/STOP');
 }
 
-clog("INIT STREAM");
+BotUtil::clog("INIT STREAM", BotConfig::LOG_LEVEL_DEBUG);
 
 $params = array(
     "track" => BotConfig::BOT_KEYWORDS
@@ -81,4 +79,4 @@ $params = array(
 $tmhOAuth->streaming_request('POST', $stream_method, $params, 'streaming_callback', false);
 
 // output any response we get back AFTER the Stream has stopped -- or errors
-tmhUtilities::pr($tmhOAuth);
+BotUtil::clog($tmhOAuth, BotConfig::LOG_LEVEL_DEBUG);

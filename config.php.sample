@@ -1,5 +1,13 @@
 <?php 
 
+/**
+ * Bot config class. Put your configuration here.
+ *
+ * @package    twerfurt
+ * @subpackage twitter-bot
+ * @author     Maik Kulbe <info@linux-web-development.de>
+ * @license    see LICENCE file
+ */
 class BotConfig {
 	const OAUTH_CONSUMER_KEY      = '';
 	const OAUTH_CONSUMER_SECRET   = '';
@@ -11,4 +19,12 @@ class BotConfig {
 	
 	const LOG_FILE_PATH           = 'data/bot.log';
 	const LOG_ENABLED             = false;
+	
+	const LOG_LEVEL               = 10;
+	
+    const LOG_LEVEL_NONE          = 0;
+    const LOG_LEVEL_PRODUCTION    = 10;
+    const LOG_LEVEL_DEBUG         = 20;
+
+    const LOG_BROWSER_UPDATE_TIME = 200;
 }
