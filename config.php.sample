@@ -9,18 +9,18 @@
  * @license    see LICENCE file
  */
 class BotConfig {
-	const OAUTH_CONSUMER_KEY      = '';
-	const OAUTH_CONSUMER_SECRET   = '';
+    const OAUTH_CONSUMER_KEY      = '';
+    const OAUTH_CONSUMER_SECRET   = '';
 
-	const OAUTH_USER_TOKEN        = '';
-	const OAUTH_USER_SECRET       = '';
+    const OAUTH_USER_TOKEN        = '';
+    const OAUTH_USER_SECRET       = '';
 	
-	const BOT_KEYWORDS            = '';
+    const BOT_KEYWORDS            = '';
 	
-	const LOG_FILE_PATH           = 'data/bot.log';
-	const LOG_ENABLED             = false;
+    const LOG_FILE_PATH           = 'data/bot.log';
+    const LOG_ENABLED             = false;
 	
-	const LOG_LEVEL               = 10;
+    const LOG_LEVEL               = 10;
 	
     const LOG_LEVEL_NONE          = 0;
     const LOG_LEVEL_PRODUCTION    = 10;
